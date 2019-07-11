@@ -11,6 +11,6 @@ class StaticPagesController < ApplicationController
   end
   def success
     @data = { property_id: params[:id] }.to_json
-    render 'api/bookings/show', status: :ok
+    render 'success'
   end
 end
