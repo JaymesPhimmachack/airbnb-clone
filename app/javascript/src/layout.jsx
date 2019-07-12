@@ -17,18 +17,7 @@ class Layout extends React.Component {
   renderLinks = () => {
      const { authenticated } = this.state;
      
-    if(!authenticated){
-      return (
-        <span>
-          <li className="nav-item">
-            <a className="nav-link" href="/">Sign up</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href={`/login?redirect_url=${window.location.pathname}`}>Log in</a>
-          </li>
-        </span>
-      );
-    }else {
+    if(authenticated){
       return (
         <span>
           <li className="nav-item">
@@ -39,6 +28,17 @@ class Layout extends React.Component {
           </li>
           <li className="nav-item">
             <a className="nav-link" href={`/login?redirect_url=${window.location.pathname}`}>Sign out</a>
+          </li>
+        </span>
+      );
+    }else {
+      return (
+        <span>
+          <li className="nav-item">
+            <a className="nav-link" href="/">Sign up</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href={`/login?redirect_url=${window.location.pathname}`}>Log in</a>
           </li>
         </span>
       );
