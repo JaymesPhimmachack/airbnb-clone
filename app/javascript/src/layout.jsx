@@ -6,18 +6,18 @@ class Layout extends React.Component {
     authenticated: false,
   }
   componentDidMount() {
-    fetch('/api/authenticated')
+   /* fetch('/api/authenticated')
       .then(handleErrors)
       .then(data => {
         this.setState({
           authenticated: data.authenticated,
         })
-      })
+      })*/
   }
   renderLinks = () => {
-     const { authenticated } = this.state;
+     //const { authenticated } = this.state;
      
-    if(authenticated){
+   /* if(authenticated){
       return (
         <span>
           <li className="nav-item">
@@ -42,7 +42,7 @@ class Layout extends React.Component {
           </li>
         </span>
       );
-    }
+    }*/
   }
   render() {
    
@@ -56,7 +56,7 @@ class Layout extends React.Component {
               <li className="nav-item">
                 <a className="nav-link" href="/">Home</a>
               </li>
-              { this.renderLinks() }
+              {/* this.renderLinks()*/ }
             </ul>
           </div>
         </nav>
