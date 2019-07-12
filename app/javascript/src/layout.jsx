@@ -56,7 +56,7 @@ class Layout extends React.Component {
               <li className="nav-item">
                 <a className="nav-link" href="/">Home</a>
               </li>
-              {/* this.renderLinks()*/ }
+              { this.renderLinks() }
             </ul>
           </div>
         </nav>
