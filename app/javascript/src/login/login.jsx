@@ -4,26 +4,35 @@ import Layout from '@src/layout';
 import LoginWidget from './loginWidget';
 import SignupWidget from './signupWidget';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
+
 class Login extends React.Component {
   state = {
     authenticated: false,
     show_login: true,
   }
+
   componentDidMount() {
-    fetch('/api/authenticated')
-      .then(handleErrors)
-      .then(data => {
-        this.setState({
-          authenticated: data.authenticated,
-        })
-      })
+    /* fetch('/api/authenticated')
+       .then(handleErrors)
+       .then(data => {
+         this.setState({
+           authenticated: data.authenticated,
+         })
+       })
+       .catch(error => console.log(error));*/
+
+    if (this.props.type == 'signup') {
+      this.toggle()
+    }
   }
+
   toggle = () => {
     this.setState({
       show_login: !this.state.show_login,
     })
   }
-  render () {
+
+  render() {
     const { authenticated, show_login } = this.state;
     if (authenticated) {
       return (
@@ -55,4 +64,5 @@ class Login extends React.Component {
     )
   }
 }
+
 export default Login;

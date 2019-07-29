@@ -7,7 +7,6 @@ import './property.scss';
 class Property extends React.Component {
   state = {
     property: {},
-    loading: true,
   }
   componentDidMount() {
     fetch(`/api/properties/${this.props.property_id}`)
@@ -15,11 +14,11 @@ class Property extends React.Component {
       .then(data => {
         this.setState({
           property: data.property,
-          loading: false,
         })
+        console.log(this.state.property)
       })
   }
-  render () {
+  render() {
     const { property, loading } = this.state;
     if (loading) {
       return <p>loading...</p>;
@@ -39,12 +38,13 @@ class Property extends React.Component {
       image_url,
       user,
     } = property
+
     return (
       <Layout>
-        <div className="property-image mb-3" style={{ backgroundImage: `url(${image_url})` }} />
+         <div className="property-image mb-3" style={{ backgroundImage: `url(${image_url})` }} />
         <div className="container">
           <div className="row">
-            <div className="info col-12 col-lg-7">
+           <div className="info col-12 col-lg-7">
               <div className="mb-3">
                 <h3 className="mb-0">{title}</h3>
                 <p className="text-uppercase mb-0 text-secondary"><small>{city}</small></p>

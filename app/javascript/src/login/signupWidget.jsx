@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
+
 class SignupWidget extends React.Component {
   state = {
     email: '',
@@ -18,17 +19,11 @@ class SignupWidget extends React.Component {
     this.setState({
       error: '',
     });
-    fetch('/api/users', safeCredentials({
-      method: 'POST',
-      body: JSON.stringify({
-        user: {
-          email: this.state.email,
-          password: this.state.password,
-          username: this.state.username,
-        }
-      })
-    }))
-      .then(handleErrors)
+    createUser(
+        this.state.email,
+        this.state.password,
+        this.state.username,
+      )
       .then(data => {
         if (data.user) {
           this.login();
@@ -45,15 +40,10 @@ class SignupWidget extends React.Component {
     this.setState({
       error: '',
     });
-    fetch('/api/sessions', safeCredentials({
-      method: 'POST',
-      body: JSON.stringify({
-        user: {
-          email: this.state.email,
-          password: this.state.password,
-        }
-      })
-    }))
+    signinUser(
+        this.state.email,
+        this.state.password,
+      )
       .then(handleErrors)
       .then(data => {
         if (data.success) {
@@ -68,7 +58,7 @@ class SignupWidget extends React.Component {
         })
       })
   }
-  render () {
+  render() {
     const { email, password, username, error } = this.state;
     return (
       <React.Fragment>

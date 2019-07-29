@@ -4,49 +4,80 @@ import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 class Layout extends React.Component {
   state = {
     authenticated: false,
+    user_id: null
   }
+
   componentDidMount() {
     fetch('/api/authenticated')
       .then(handleErrors)
-      .then(data => {
+      .then(response => {
         this.setState({
-          authenticated: data.authenticated,
+          authenticated: response.authenticated,
+          user_id: response.user_id,
         })
       })
   }
+
+  handleLogout = () => {
+
+    fetch('/api/sessions', safeCredentials({
+        method: 'DELETE'
+      }))
+      .then(handleErrors)
+      .then(() => {
+        fetch('/api/authenticated', safeCredentials({
+            method: 'GET'
+          }))
+          .then(handleErrors)
+          .then(response => {
+            this.setState({
+              authenticated: response.authenticated,
+            })
+            if (!response.authenticated) {
+              if (window.location.pathname !== '/') {
+                window.location.replace("/");
+              }
+            }
+          })
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
+  };
+
   renderLinks = () => {
-     const { authenticated } = this.state;
-     
-    if(authenticated){
+    const { authenticated, user_id } = this.state;
+
+    if (authenticated) {
       return (
         <span>
           <li className="nav-item">
-            <a className="nav-link" href="/">My Listings</a>
+            <a className="nav-link" href={`/listings/${user_id}`}>My Listings</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href={`/login?redirect_url=${window.location.pathname}`}>My Trips</a>
+            <a className="nav-link" href={`/trips/${user_id}`}>My Trips</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href={`/login?redirect_url=${window.location.pathname}`}>Sign out</a>
+            <a className="nav-link" href="#" onClick={this.handleLogout}>Sign out</a>
           </li>
         </span>
       );
-    }else {
+    }
+    else {
       return (
         <span>
           <li className="nav-item">
-            <a className="nav-link" href="/">Sign up</a>
+            <a className="nav-link" href="/login/signup">Sign up</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href={`/login?redirect_url=${window.location.pathname}`}>Log in</a>
+            <a className="nav-link" href="/login/login">Log in</a>
           </li>
         </span>
       );
     }
   }
+
   render() {
-   
-    
+
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand navbar-light bg-light">
@@ -70,4 +101,5 @@ class Layout extends React.Component {
     );
   }
 }
+
 export default Layout;
